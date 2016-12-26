@@ -1,0 +1,53 @@
+server:
+  port: 9001
+
+spring:
+  datasource:
+    dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+    url: jdbc:mysql://localhost:3310/master?useSSL=false&pinGlobalTxToPhysicalConnection=true
+    username: master
+    password: masrter
+    testWhileIdle: true
+    validationQuery: SELECT 1
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        temp.use_jdbc_metadata_defaults: false
+  session:
+    store-type: none
+  jta:
+    atomikos:
+      connectionfactory:
+        min-pool-size:  50
+        max-pool-size:  1000
+
+logging:
+  level: debug
+
+
+flyway:
+  enabled:  false
+  locations: classpath:db/migration/master
+
+coreer:
+  multitenancy:
+    tenant:
+      jta:
+        atomikos:
+          connectionfactory:
+            min-pool-size:  10
+            max-pool-size:  200
+
+      urlTemplate: jdbc:mysql://%s:%d/%s?useSSL=false&createDatabaseIfNotExist=true&pinGlobalTxToPhysicalConnection=true
+      username: root
+      password: root
+      defaultDb:
+        url: jdbc:mysql://localhost:3310/tenant_default?useSSL=false&createDatabaseIfNotExist=true&pinGlobalTxToPhysicalConnection=true
+        username: root
+        password: root
