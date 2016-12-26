@@ -12,3 +12,6 @@ docker-compose up -d
 ```
 
 ## 2. Run tests to show the problem
+```shell
+./mvnw test  
+```
