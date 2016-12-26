@@ -1,7 +1,9 @@
 package test.coreer.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
 import static org.springframework.transaction.annotation.Isolation.READ_UNCOMMITTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
@@ -108,6 +110,9 @@ public class DataServiceTests {
             .param4("updatedTenantParam2")
             .build();
         final DataDTO result = dataService.updateData(dataDTO);
+
+        //this is not reached because of just provided by @Sql rows are not accessible yet
+        assertThat(result, not(nullValue()));
     }
 
 }
